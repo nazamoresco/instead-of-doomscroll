@@ -1,10 +1,24 @@
 import { co, z } from "jazz-tools";
 
-const SuggestionItem = co.map({
-  text: z.string(),
+const Suggestion = co.map({
+  title: z.string(),
 });
 
-export const Suggestion = co.map({
-  title: z.string(),
-  suggestions: co.list(SuggestionItem),
+export const Suggestions = co.list(Suggestion);
+
+export const AccountRoot = co.map({
+  suggestions: Suggestions,
 });
+
+export const Account = co
+  .account({
+    root: AccountRoot,
+    profile: co.profile(),
+  })
+  .withMigration((account) => {
+    if (!account.$jazz.has('root')) {
+      account.$jazz.set('root', {
+        suggestions: [],
+      });
+    }
+  });

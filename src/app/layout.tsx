@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { JazzWrapper } from "./components/JazzWrapper";
 
 const comicShanns = localFont({
   src: './fonts/comic-shanns.woff2',
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={comicShanns.className}>
       <body>
-        {children}
+        <JazzWrapper>
+          {children}
+        </JazzWrapper>
       </body>
     </html>
   );
