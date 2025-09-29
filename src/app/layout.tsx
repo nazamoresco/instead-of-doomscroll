@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const comicShanns = localFont({
-  src: './fonts/comic-shanns.otf',
+  src: './fonts/comic-shanns.woff2',
   display: 'swap',
 })
 
