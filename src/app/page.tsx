@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { SuggestionBox } from "./components/SuggestionBox";
+import { SuggestionForm } from "./components/SuggestionForm";
+import { SuggestionList } from "./components/SuggestionList";
 
 export default function Home() {
   return (
@@ -12,7 +13,8 @@ export default function Home() {
           height={510}
           priority
         />
-        <SuggestionBox />
+        <SuggestionForm />
+        <SuggestionList />
       </main>
     </div>
   );

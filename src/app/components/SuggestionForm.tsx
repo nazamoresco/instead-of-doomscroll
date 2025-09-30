@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAccount } from "jazz-tools/react";
 import { Account, Suggestion } from "../schema";
 
-export function SuggestionBox() {
+export function SuggestionForm() {
   const { me } = useAccount(Account, { resolve: { root: { suggestions: true } } });
   const [newSuggestion, setNewSuggestion] = useState("");
 
@@ -32,11 +32,6 @@ export function SuggestionBox() {
           Add Suggestion
         </button>
       </div>
-      <ul className="mt-8">
-        {me?.root.suggestions.map((suggestion) => (
-          suggestion && <li key={suggestion.$jazz.id}>{suggestion.title}</li>
-        ))}
-      </ul>
     </div>
   );
 }
