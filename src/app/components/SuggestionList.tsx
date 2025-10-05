@@ -13,7 +13,7 @@ export function SuggestionList() {
           <li key={suggestion.$jazz.id}>
             {suggestion.title}
             {suggestion.doodle && (
-              <Image imageId={suggestion.doodle.$jazz.id} alt="Profile" width={600} />
+              <Image imageId={suggestion.doodle.$jazz.id} alt="Profile" width={512} />
             )}
           </li>
         )

@@ -58,8 +58,8 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   return (
     <canvas
       ref={canvasRef}
-      width={300}
-      height={300}
+      width={512}
+      height={512}
       className="border mt-4"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
