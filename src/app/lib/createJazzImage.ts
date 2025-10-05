@@ -11,7 +11,7 @@ export type CreateJazzImageOptions = {
 
 export async function createJazzImage(canvas: HTMLCanvasElement | null, options: CreateJazzImageOptions = {}) {
     if (!canvas) return;
-    const dataUrl = canvas?.toDataURL();
+    const dataUrl = canvas?.getCanvasData();
     if (!dataUrl) return;
 
     const blob = await (await fetch(dataUrl)).blob();

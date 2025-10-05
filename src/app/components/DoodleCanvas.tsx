@@ -2,48 +2,50 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import rough from "roughjs/bundled/rough.esm.js";
 
-export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
+  const svgRef = useRef<SVGSVGElement>(null);
   const [drawing, setDrawing] = useState(false);
-  const [points, setPoints] = useState([]);
+  const [points, setPoints] = useState(value || []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rc = rough.canvas(canvas);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rc = rough.svg(svg);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    while (svg.firstChild) {
+      svg.removeChild(svg.firstChild);
+    }
 
     points.forEach((point) => {
-      rc.line(point.x1, point.y1, point.x2, point.y2);
+      const line = rc.line(point.x1, point.y1, point.x2, point.y2);
+      svg.appendChild(line);
     });
   }, [points]);
 
   useImperativeHandle(ref, () => ({
-    toDataURL: () => {
-      if (!canvasRef.current) return null;
-      return canvasRef.current.toDataURL();
+    getCanvasData: () => {
+      if (!svgRef.current) return null;
+      const svgString = new XMLSerializer().serializeToString(svgRef.current);
+      return "data:image/svg+xml;base64," + btoa(svgString);
     },
     clear: () => {
-      setPoints([]);
+        setPoints([]);
     }
   }));
 
   const handleMouseDown = (e) => {
-    if(!canvasRef.current) return;
+    if(!svgRef.current) return;
     setDrawing(true);
     const { clientX, clientY } = e;
-    const { left, top } = canvasRef.current.getBoundingClientRect();
+    const { left, top } = svgRef.current.getBoundingClientRect();
     setPoints([...points, { x1: clientX - left, y1: clientY - top, x2: clientX - left, y2: clientY - top }]);
   };
 
   const handleMouseMove = (e) => {
-    if (!canvasRef.current) return;
+    if (!svgRef.current) return;
     if (!drawing) return;
     const { clientX, clientY } = e;
-    const { left, top } = canvasRef.current.getBoundingClientRect();
+    const { left, top } = svgRef.current.getBoundingClientRect();
     const newPoints = [...points];
     const lastPoint = newPoints[newPoints.length - 1];
     lastPoint.x2 = clientX - left;
@@ -56,8 +58,8 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   };
 
   return (
-    <canvas
-      ref={canvasRef}
+    <svg
+      ref={svgRef}
       width={512}
       height={512}
       className="border mt-4"
