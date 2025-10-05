@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import rough from "roughjs/bundled/rough.esm.js";
 
-export const DoodleCanvas = forwardRef(function DoodleCanvas(ref) {
+export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [drawing, setDrawing] = useState(false);
   const [points, setPoints] = useState([]);
@@ -22,7 +22,7 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(ref) {
   }, [points]);
 
   useImperativeHandle(ref, () => ({
-    getCanvasData: () => {
+    toDataURL: () => {
       if (!canvasRef.current) return null;
       return canvasRef.current.toDataURL();
     },
