@@ -1,5 +1,6 @@
 'use client';
 import { Logo } from './components/Logo';
+import { PlusIcon } from './components/PlusIcon';
 import { SuggestionForm } from "./components/SuggestionForm";
 import { SuggestionList } from "./components/SuggestionList";
 import { useState } from 'react';
@@ -15,9 +16,7 @@ export default function Home() {
         </div>
         <div className="absolute top-0 right-0 m-4">
           <button onClick={() => setShowForm(!showForm)}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+            <PlusIcon className="w-32 h-32" />
           </button>
         </div>
         {showForm && <SuggestionForm />}
