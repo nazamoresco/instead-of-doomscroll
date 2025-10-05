@@ -2,6 +2,7 @@ import { co, z } from "jazz-tools";
 
 export const Suggestion = co.map({
   title: z.string(),
+  doodle: co.optional(co.image()),
 });
 
 export const Suggestions = co.list(Suggestion);

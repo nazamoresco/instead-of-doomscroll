@@ -1,18 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAccount } from "jazz-tools/react";
-import { Account, Suggestion } from "../schema";
+import { Account } from "../schema";
+import { DoodleCanvas } from "./DoodleCanvas";
+import { createJazzImage } from "../lib/createJazzImage";
+
 
 export function SuggestionForm() {
   const { me } = useAccount(Account, { resolve: { root: { suggestions: true } } });
   const [newSuggestion, setNewSuggestion] = useState("");
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleAddSuggestion = () => {
+  const handleAddSuggestion = async () => {
     if (!me) return; // not loaded yet
-    if (newSuggestion.trim() !== "") {
-      me.root.suggestions.$jazz.push({ title: newSuggestion });
-      setNewSuggestion("");
-    }
+    if (newSuggestion.trim() === "") return;
+    const doodle = await createJazzImage(canvasRef.current, {
+      owner: me.$jazz.owner,
+      maxSize: 512,
+      progressive: true
+    });
+
+    me.root.suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
+    setNewSuggestion("");
+    canvasRef.current?.clear();
   };
 
   return (
@@ -32,6 +42,7 @@ export function SuggestionForm() {
           Add Suggestion
         </button>
       </div>
+      <DoodleCanvas ref={canvasRef} />
     </div>
   );
 }
