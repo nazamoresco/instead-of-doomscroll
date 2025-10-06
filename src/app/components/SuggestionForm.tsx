@@ -26,7 +26,7 @@ export function SuggestionForm() {
   };
 
   return (
-    <div className="fixed bottom-10 right-10 bg-white p-4 rounded-lg shadow-lg z-10">
+    <div className="fixed bottom-10 right-10 bg-white dark:bg-black p-4 rounded-lg shadow-lg z-10">
       <div className="flex">
         <input
           type="text"
