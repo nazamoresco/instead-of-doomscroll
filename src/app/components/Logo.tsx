@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
+import { ReactSVG } from "react-svg";
 
-export function Logo() {
-  return <Image src="/logo.svg" alt="Logo" width={128} height={128} priority />;
+export function Logo({ className }: { className?: string }) {
+  return <ReactSVG src="/logo.svg" className={className} />;
 }
   
