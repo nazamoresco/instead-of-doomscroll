@@ -34,20 +34,17 @@ export function SuggestionList() {
 
   const suggestion = suggestions[currentIndex];
 
-  return (
-    <ul className="mt-8">
-      {suggestion && (
-        <li key={suggestion.$jazz.id}>
-          {suggestion.title}
-          {suggestion.doodle && (
-            <Image
-              imageId={suggestion.doodle.$jazz.id}
-              alt="Profile"
-              width={512}
-            />
-          )}
-        </li>
+  return suggestion && (
+    <div key={suggestion.$jazz.id}>
+      {suggestion.doodle && (
+        <Image
+          imageId={suggestion.doodle.$jazz.id}
+          alt="Profile"
+          width={512}
+        />
       )}
-    </ul>
+      <p className="text-center text-xl"> {suggestion.title} </p>
+      <p className="text-center text-xs mt-2 text-zinc-400 dark:text-zinc-600"> Click or press the right arrow key to see next! </p>
+    </div>
   );
 }
