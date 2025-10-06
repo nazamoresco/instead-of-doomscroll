@@ -17,7 +17,7 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
     }
 
     points.forEach((point) => {
-      const line = rc.line(point.x1, point.y1, point.x2, point.y2);
+      const line = rc.line(point.x1, point.y1, point.x2, point.y2, {stroke: 'currentColor'});
       svg.appendChild(line);
     });
   }, [points]);
@@ -58,14 +58,15 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
   };
 
   return (
-    <svg
-      ref={svgRef}
-      width={512}
-      height={512}
-      className="border mt-4"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    />
+    <div className="border mt-4"> 
+      <svg
+        ref={svgRef}
+        width={512}
+        height={512}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      />
+    </div>
   );
 });
