@@ -1,18 +1,20 @@
 "use client";
 import { useRef, useState } from "react";
-import { useAccount } from "jazz-tools/react";
-import { Account } from "../schema";
+import { useAccount, useCoState } from "jazz-tools/react";
+import { Account, SuggestionList } from "../schema";
 import { DoodleCanvas } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
 
 
 export function SuggestionForm() {
-  const { me } = useAccount(Account, { resolve: { root: { suggestions: true } } });
+  const { me } = useAccount(Account);
+  const suggestions = useCoState(SuggestionList, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
   const [newSuggestion, setNewSuggestion] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleAddSuggestion = async () => {
-    if (!me) return; // not loaded yet
+    if(!me) return;
+    if (!suggestions) return;
     if (newSuggestion.trim() === "") return;
     const doodle = await createJazzImage(canvasRef.current, {
       owner: me.$jazz.owner,
@@ -20,7 +22,7 @@ export function SuggestionForm() {
       progressive: true
     });
 
-    me.root.suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
+    const suggestion = suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
     setNewSuggestion("");
     canvasRef.current?.clear();
   };

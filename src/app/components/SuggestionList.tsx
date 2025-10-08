@@ -1,17 +1,15 @@
 "use client";
-import { useAccount } from "jazz-tools/react";
-import { Account } from "../schema";
+import { useCoState } from "jazz-tools/react";
 import { Image } from "jazz-tools/react";
 import { useState, useEffect } from "react";
+import { SuggestionList as SuggestionListSchema } from "../schema";
 
 export function SuggestionList() {
-  const { me } = useAccount(Account, {
-    resolve: { root: { suggestions: true } },
-  });
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const suggestions = me?.root.suggestions.filter(Boolean);
-
+  const suggestions = useCoState(SuggestionListSchema, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
+    resolve: true
+  });
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
