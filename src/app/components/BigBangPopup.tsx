@@ -3,18 +3,12 @@ import { createSingletonSuggestionList } from "../lib/createSingletonSuggestionL
 
 interface BigBangPopupProps {
   onHide: () => void;
-  suggestionListIdSet: boolean;
 }
 
-export function BigBangPopup({ onHide, suggestionListIdSet }: BigBangPopupProps) {
-  const canHide = !suggestionListIdSet;
-
+export function BigBangPopup({ onHide }: BigBangPopupProps) {
   const handleBigBang = () => {
     createSingletonSuggestionList();
-
-    if (canHide) {
-      onHide();
-    }
+    onHide();
   };
 
   return (
@@ -27,14 +21,6 @@ export function BigBangPopup({ onHide, suggestionListIdSet }: BigBangPopupProps)
       >
         Big Bang!
       </button>
-      {canHide && (
-        <button
-          onClick={onHide}
-          className="mt-2 bg-red-500 text-white p-2 rounded"
-        >
-          Hide
-        </button>
-      )}
     </div>
   );
 }

@@ -8,10 +8,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
-  const [hidePopup, setHidePopup] = useState(false);
-
-  const suggestionListIdSet = !!process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID;
-  const showPopup = (suggestionListIdSet || !hidePopup);
+  const [showPopup, setShowPopup] = useState(!process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -25,8 +22,7 @@ export default function Home() {
         {showForm && <SuggestionForm />}
         {showPopup && (
           <BigBangPopup
-            onHide={() => setHidePopup(true)}
-            suggestionListIdSet={suggestionListIdSet}
+            onHide={() => setShowPopup(false)}
           />
         )}
         <SuggestionList />
