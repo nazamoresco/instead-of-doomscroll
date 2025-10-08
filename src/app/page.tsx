@@ -3,10 +3,22 @@ import { Logo } from './components/Logo';
 import { PlusIcon } from './components/PlusIcon';
 import { SuggestionForm } from "./components/SuggestionForm";
 import { SuggestionList } from "./components/SuggestionList";
+import { BigBangPopup } from "./components/BigBangPopup";
+import { useAccount } from "jazz-tools/react";
+import { Account } from "./schema";
 import { useState } from 'react';
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
+  const [hidePopup, setHidePopup] = useState(false);
+
+  const { me } = useAccount(Account, {
+    resolve: { profile: true },
+  });
+
+  const isAdmin = !!me;
+  const suggestionListIdSet = !!process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID;
+  const showPopup = isAdmin && (suggestionListIdSet || !hidePopup);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -18,6 +30,12 @@ export default function Home() {
           </button>
         </div>
         {showForm && <SuggestionForm />}
+        {showPopup && (
+          <BigBangPopup
+            onHide={() => setHidePopup(true)}
+            suggestionListIdSet={suggestionListIdSet}
+          />
+        )}
         <SuggestionList />
       </main>
     </div>
