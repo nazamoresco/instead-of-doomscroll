@@ -15,7 +15,7 @@ export function BigBangPopup({ onHide, suggestionListIdSet }: BigBangPopupProps)
   return (
     <div className="fixed top-10 left-10 bg-yellow-200 dark:bg-yellow-800 p-4 rounded-lg shadow-lg z-20">
       <h2 className="text-xl font-bold">Big Bang</h2>
-      <p>This is the Big Bang popup for admins.</p>
+      <p>Create initial Suggestion List</p>
       {canHide && (
         <button
           onClick={onHide}
