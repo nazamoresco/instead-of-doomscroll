@@ -4,6 +4,7 @@ import { useAccount, useCoState } from "jazz-tools/react";
 import { Account, SuggestionList } from "../schema";
 import { DoodleCanvas } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
+import { Group } from "jazz-tools";
 
 
 export function SuggestionForm() {
@@ -17,7 +18,7 @@ export function SuggestionForm() {
     if (!suggestions) return;
     if (newSuggestion.trim() === "") return;
     const doodle = await createJazzImage(canvasRef.current, {
-      owner: me.$jazz.owner,
+      owner: Group.create().makePublic("reader"),
       maxSize: 512,
       progressive: true
     });
