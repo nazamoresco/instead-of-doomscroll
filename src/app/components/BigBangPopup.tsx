@@ -1,6 +1,4 @@
 "use client";
-import { useAccount } from "jazz-tools/react";
-import { Account } from "../schema";
 import { createSingletonSuggestionList } from "../lib/createSingletonSuggestionList";
 
 interface BigBangPopupProps {
@@ -9,9 +7,7 @@ interface BigBangPopupProps {
 }
 
 export function BigBangPopup({ onHide, suggestionListIdSet }: BigBangPopupProps) {
-  const { me } = useAccount(Account);
-  const isAdmin = !!me;
-  const canHide = isAdmin && !suggestionListIdSet;
+  const canHide = !suggestionListIdSet;
 
   const handleBigBang = () => {
     createSingletonSuggestionList();
