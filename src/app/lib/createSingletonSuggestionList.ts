@@ -3,8 +3,7 @@ import { Group } from 'jazz-tools';
 
 export const createSingletonSuggestionList = () => {
   const group = Group.create();
-  group.addMember("everyone", "writeOnly");
-  group.makePublic("reader");
+  group.addMember("everyone", "writer");
 
   const newList = SuggestionList.create([], group);
   console.log("New SuggestionList ID:", newList.$jazz.id);

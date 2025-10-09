@@ -7,9 +7,12 @@ import { SuggestionList as SuggestionListSchema } from "../schema";
 export function SuggestionList() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const suggestions = useCoState(SuggestionListSchema, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
+  const suggestionFeed = useCoState(SuggestionListSchema, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
     resolve: true
   });
+
+  const suggestions = Array.from(suggestionFeed?.inCurrentSession?.all || []);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
@@ -30,7 +33,7 @@ export function SuggestionList() {
     return null;
   }
 
-  const suggestion = suggestions[currentIndex];
+  const suggestion = suggestions[currentIndex]?.value;
 
   return suggestion && (
     <div key={suggestion.$jazz.id}>
