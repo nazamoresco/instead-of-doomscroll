@@ -5,10 +5,10 @@ export const Suggestion = co.map({
   doodle: co.optional(co.image()),
 });
 
-export const SuggestionList = co.feed(Suggestion);
+export const SuggestionFeed = co.feed(Suggestion);
 
 export const AccountRoot = co.map({
-  suggestions: SuggestionList,
+  suggestions: SuggestionFeed,
 });
 
 export const Account = co

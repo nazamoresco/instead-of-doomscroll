@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useAccount, useCoState } from "jazz-tools/react";
-import { Account, SuggestionList } from "../schema";
+import { Account, SuggestionFeed } from "../schema";
 import { DoodleCanvas } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
 import { Group } from "jazz-tools";
@@ -9,7 +9,7 @@ import { Group } from "jazz-tools";
 
 export function SuggestionForm() {
   const { me } = useAccount(Account);
-  const suggestions = useCoState(SuggestionList, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
+  const suggestions = useCoState(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
   const [newSuggestion, setNewSuggestion] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

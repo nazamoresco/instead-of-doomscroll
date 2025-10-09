@@ -2,12 +2,12 @@
 import { useCoState } from "jazz-tools/react";
 import { Image } from "jazz-tools/react";
 import { useState, useEffect } from "react";
-import { SuggestionList as SuggestionListSchema } from "../schema";
+import { SuggestionFeed } from "../schema";
 
 export function SuggestionList() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const suggestionFeed = useCoState(SuggestionListSchema, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
+  const suggestionFeed = useCoState(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
     resolve: true
   });
 
