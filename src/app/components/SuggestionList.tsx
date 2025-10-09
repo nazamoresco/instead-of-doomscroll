@@ -1,24 +1,30 @@
 "use client";
-import { useCoState } from "jazz-tools/react";
+import { useCoStateWithSelector } from "jazz-tools/react";
 import { Image } from "jazz-tools/react";
 import { useState, useEffect } from "react";
-import { SuggestionFeed } from "../schema";
+import { Suggestion, SuggestionFeed } from "../schema";
 
 export function SuggestionList() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const suggestionFeed = useCoState(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
-    resolve: true
+  const suggestions = useCoStateWithSelector(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID, {
+    resolve: true,
+    select: (suggestionFeed) => {
+      if (!suggestionFeed) return [];
+  
+      return Array.from(suggestionFeed?.inCurrentSession?.all || [])
+        .map(item => item.value)
+        .filter(suggestion => !!suggestion && !suggestion.deleted);
+    },
   });
-
-  const suggestions = Array.from(suggestionFeed?.inCurrentSession?.all || []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
-        setCurrentIndex((prevIndex) =>
-          suggestions ? (prevIndex + 1) % suggestions.length : 0
-        );
+        setCurrentIndex((prevIndex) => {
+          if (!suggestions || suggestions.length === 0) return 0;
+          return (prevIndex + 1) % suggestions.length;
+        });
       }
     };
 
@@ -29,12 +35,20 @@ export function SuggestionList() {
     };
   }, [suggestions]);
 
+  const onDelete = (suggestion: Suggestion) => {
+    suggestion.$jazz.set("deleted", true);
+    setCurrentIndex((prevIndex) => {
+      if (!suggestions || suggestions.length < 2) return 0;
+      return prevIndex % (suggestions.length - 1);
+    });
+  }
+
   if (!suggestions || suggestions.length === 0) {
     return null;
   }
 
-  const suggestion = suggestions[currentIndex]?.value;
-
+  const suggestion = suggestions[currentIndex];
+  
   return suggestion && (
     <div key={suggestion.$jazz.id}>
       {suggestion.doodle && (
@@ -44,6 +58,7 @@ export function SuggestionList() {
           width={512}
         />
       )}
+      <button onClick={() => onDelete(suggestion)}>Delete</button>
       <p className="text-center text-xl"> {suggestion.title} </p>
       <p className="text-center text-xs mt-2 text-zinc-400 dark:text-zinc-600"> Click or press the right arrow key to see next! </p>
     </div>

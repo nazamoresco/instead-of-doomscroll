@@ -1,9 +1,12 @@
 import { co, z } from "jazz-tools";
 
-export const Suggestion = co.map({
+const Suggestion = co.map({
   title: z.string(),
   doodle: co.optional(co.image()),
+  deleted: z.boolean().default(false)
 });
+
+export type Suggestion = co.loaded<typeof Suggestion>;
 
 export const SuggestionFeed = co.feed(Suggestion);
 
