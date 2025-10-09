@@ -12,7 +12,7 @@ export function SuggestionList() {
     select: (suggestionFeed) => {
       if (!suggestionFeed) return [];
   
-      return Array.from(suggestionFeed?.inCurrentSession?.all || [])
+      return Object.values(suggestionFeed?.perSession ?? {})
         .map(item => item.value)
         .filter(suggestion => !!suggestion && !suggestion.deleted);
     },
