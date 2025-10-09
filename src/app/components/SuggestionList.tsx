@@ -11,9 +11,12 @@ export function SuggestionList() {
     resolve: true,
     select: (suggestionFeed) => {
       if (!suggestionFeed) return [];
-  
-      return Object.values(suggestionFeed?.perSession ?? {})
-        .map(item => item.value)
+
+      // TODO: This is clearly not scalable, probably some kind of pagination
+      return Object.values(suggestionFeed?.perAccount ?? {})
+        .map(item => Array.from(item.all))
+        .flat()
+        .map(item => item && item.value)
         .filter(suggestion => !!suggestion && !suggestion.deleted);
     },
   });
