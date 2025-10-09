@@ -25,6 +25,9 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
   useImperativeHandle(ref, () => ({
     getCanvasData: () => {
       if (!svgRef.current) return null;
+      svgRef.current.setAttribute("viewBox", `0 0 ${svgRef.current.getAttribute("width")} ${svgRef.current.getAttribute("height")}`);
+      svgRef.current.removeAttribute("width");
+      svgRef.current.removeAttribute("height");
       const svgString = new XMLSerializer().serializeToString(svgRef.current);
       return "data:image/svg+xml;base64," + btoa(svgString);
     },
