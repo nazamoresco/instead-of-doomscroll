@@ -23,7 +23,7 @@ export function SuggestionForm() {
       progressive: true
     });
 
-    const suggestion = suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
+    suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
     setNewSuggestion("");
     canvasRef.current?.clear();
   };
