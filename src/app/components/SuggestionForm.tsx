@@ -35,18 +35,18 @@ export function SuggestionForm() {
   };
 
   return (
-    <div className="fixed bottom-10 right-10 bg-white dark:bg-black p-4 rounded-lg shadow-lg z-10">
-      <div className="flex">
+    <div className="fixed bottom-0 inset-x-0 p-4 bg-white dark:bg-black shadow-lg z-10 md:bottom-10 md:right-10 md:w-auto md:rounded-lg md:inset-x-auto">
+      <div className="flex flex-col md:flex-row">
         <input
           type="text"
           value={newSuggestion}
           onChange={(e) => setNewSuggestion(e.target.value)}
           placeholder="Enter a new suggestion"
-          className="border p-2 rounded"
+          className="border p-2 rounded w-full"
         />
         <button
           onClick={handleAddSuggestion}
-          className="bg-blue-500 text-white p-2 rounded ml-2"
+          className="bg-blue-500 text-white p-2 rounded mt-2 w-full md:w-auto md:mt-0 md:ml-2"
         >
           Add Suggestion
         </button>
