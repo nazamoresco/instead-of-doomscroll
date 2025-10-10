@@ -1,5 +1,5 @@
-import { SuggestionFeed } from '../schema';
-import { Group } from 'jazz-tools';
+import { SuggestionFeed } from "../schema";
+import { Group } from "jazz-tools";
 
 export const createSingletonSuggestionList = () => {
   const group = Group.create();

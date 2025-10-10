@@ -1,14 +1,16 @@
-'use client';
-import { Logo } from './components/Logo';
-import { PlusIcon } from './components/PlusIcon';
+"use client";
+import { Logo } from "./components/Logo";
+import { PlusIcon } from "./components/PlusIcon";
 import { SuggestionForm } from "./components/SuggestionForm";
 import { SuggestionList } from "./components/SuggestionList";
 import { BigBangPopup } from "./components/BigBangPopup";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
-  const [showPopup, setShowPopup] = useState(!process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
+  const [showPopup, setShowPopup] = useState(
+    !process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID,
+  );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -20,11 +22,7 @@ export default function Home() {
           </button>
         </div>
         {showForm && <SuggestionForm />}
-        {showPopup && (
-          <BigBangPopup
-            onHide={() => setShowPopup(false)}
-          />
-        )}
+        {showPopup && <BigBangPopup onHide={() => setShowPopup(false)} />}
         <SuggestionList />
       </main>
     </div>

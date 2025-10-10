@@ -4,9 +4,9 @@ import "./globals.css";
 import { JazzWrapper } from "./components/JazzWrapper";
 
 const comicShanns = localFont({
-  src: './fonts/comic-shanns.woff2',
-  display: 'swap',
-})
+  src: "./fonts/comic-shanns.woff2",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={comicShanns.className}>
       <body>
-        <JazzWrapper>
-          {children}
-        </JazzWrapper>
+        <JazzWrapper>{children}</JazzWrapper>
       </body>
     </html>
   );

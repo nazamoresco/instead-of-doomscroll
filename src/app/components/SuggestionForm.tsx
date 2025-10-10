@@ -6,24 +6,30 @@ import { DoodleCanvas, DoodleCanvasRef } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
 import { Group } from "jazz-tools";
 
-
 export function SuggestionForm() {
   const { me } = useAccount(Account);
-  const suggestions = useCoState(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
+  const suggestions = useCoState(
+    SuggestionFeed,
+    process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID,
+  );
   const [newSuggestion, setNewSuggestion] = useState("");
   const canvasRef = useRef<DoodleCanvasRef>(null);
 
   const handleAddSuggestion = async () => {
-    if(!me) return;
+    if (!me) return;
     if (!suggestions) return;
     if (newSuggestion.trim() === "") return;
     const doodle = await createJazzImage(canvasRef.current, {
       owner: Group.create().makePublic("reader"),
       maxSize: 512,
-      progressive: true
+      progressive: true,
     });
 
-    suggestions.$jazz.push({ title: newSuggestion, doodle: doodle, deleted: false,  });
+    suggestions.$jazz.push({
+      title: newSuggestion,
+      doodle: doodle,
+      deleted: false,
+    });
     setNewSuggestion("");
     canvasRef.current?.clear();
   };

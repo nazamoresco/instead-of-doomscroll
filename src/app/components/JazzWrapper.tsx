@@ -10,10 +10,7 @@ export function JazzWrapper({ children }: { children: React.ReactNode }) {
       sync={{ peer: `wss://cloud.jazz.tools/?key=${apiKey}` }}
       AccountSchema={Account}
     >
-      <PasskeyAuthBasicUI appName="JazzFest">
-        {children}
-      </PasskeyAuthBasicUI>
-
+      <PasskeyAuthBasicUI appName="JazzFest">{children}</PasskeyAuthBasicUI>
     </JazzReactProvider>
   );
 }
