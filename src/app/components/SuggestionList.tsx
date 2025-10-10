@@ -25,13 +25,17 @@ export function SuggestionList() {
     },
   );
 
+  const showNextSuggestion = () => {
+    setCurrentIndex((prevIndex) => {
+      if (!suggestions || suggestions.length === 0) return 0;
+      return (prevIndex + 1) % suggestions.length;
+    });
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
-        setCurrentIndex((prevIndex) => {
-          if (!suggestions || suggestions.length === 0) return 0;
-          return (prevIndex + 1) % suggestions.length;
-        });
+        showNextSuggestion();
       }
     };
 
@@ -58,7 +62,11 @@ export function SuggestionList() {
 
   return (
     suggestion && (
-      <div key={suggestion.$jazz.id} className="w-full">
+      <div
+        key={suggestion.$jazz.id}
+        className="w-full"
+        onClick={showNextSuggestion}
+      >
         {suggestion.doodle && <SvgImage svg={suggestion.doodle} />}
         <button onClick={() => onDelete(suggestion)}>Delete</button>
         <p className="text-center text-xl"> {suggestion.title} </p>
