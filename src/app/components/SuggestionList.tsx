@@ -2,8 +2,7 @@
 import { useCoStateWithSelector } from "jazz-tools/react";
 import { useState, useEffect } from "react";
 import { Suggestion, SuggestionFeed } from "../schema";
-import { highestResAvailable } from "jazz-tools/media";
-import { ReactSVG } from "react-svg";
+import { SvgImage } from "./SvgImage";
 
 export function SuggestionList() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -57,16 +56,10 @@ export function SuggestionList() {
 
   const suggestion = suggestions[currentIndex];
 
-  const stream =
-    suggestion &&
-    suggestion.doodle &&
-    highestResAvailable(suggestion.doodle, 512, 512)?.image.toBlob();
-  const svgUrl = stream && URL.createObjectURL(stream);
-
   return (
     suggestion && (
       <div key={suggestion.$jazz.id} className="w-full">
-        {svgUrl && <ReactSVG src={svgUrl} className="w-full max-h-128" />}
+        {suggestion.doodle && <SvgImage svg={suggestion.doodle} />}
         <button onClick={() => onDelete(suggestion)}>Delete</button>
         <p className="text-center text-xl"> {suggestion.title} </p>
         <p className="text-center text-xs mt-2 text-zinc-400 dark:text-zinc-600">
