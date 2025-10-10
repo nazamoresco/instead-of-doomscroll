@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useAccount, useCoState } from "jazz-tools/react";
 import { Account, SuggestionFeed } from "../schema";
-import { DoodleCanvas } from "./DoodleCanvas";
+import { DoodleCanvas, DoodleCanvasRef } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
 import { Group } from "jazz-tools";
 
@@ -11,7 +11,7 @@ export function SuggestionForm() {
   const { me } = useAccount(Account);
   const suggestions = useCoState(SuggestionFeed, process.env.NEXT_PUBLIC_SUGGESTION_LIST_ID);
   const [newSuggestion, setNewSuggestion] = useState("");
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<DoodleCanvasRef>(null);
 
   const handleAddSuggestion = async () => {
     if(!me) return;
@@ -23,7 +23,7 @@ export function SuggestionForm() {
       progressive: true
     });
 
-    suggestions.$jazz.push({ title: newSuggestion, doodle: doodle });
+    suggestions.$jazz.push({ title: newSuggestion, doodle: doodle, deleted: false,  });
     setNewSuggestion("");
     canvasRef.current?.clear();
   };

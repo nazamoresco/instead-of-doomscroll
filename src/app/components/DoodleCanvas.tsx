@@ -2,10 +2,15 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import rough from "roughjs/bundled/rough.esm.js";
 
-export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
+export declare class DoodleCanvasRef {
+  getCanvasData: () => string | null;
+  clear: () => void;
+}
+
+export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [drawing, setDrawing] = useState(false);
-  const [points, setPoints] = useState(value || []);
+  const [points, setPoints] = useState([] as {x1: number, y1: number, x2: number, y2: number}[]);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -36,7 +41,7 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
     }
   }));
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
     if(!svgRef.current) return;
     setDrawing(true);
     const { clientX, clientY } = e;
@@ -44,7 +49,7 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas({ value }, ref) {
     setPoints([...points, { x1: clientX - left, y1: clientY - top, x2: clientX - left, y2: clientY - top }]);
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
     if (!drawing) return;
     const { clientX, clientY } = e;

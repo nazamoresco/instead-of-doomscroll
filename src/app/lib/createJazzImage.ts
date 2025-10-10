@@ -1,6 +1,7 @@
 
 import { Account, Group } from 'jazz-tools';
 import { createImage } from 'jazz-tools/media';
+import { DoodleCanvasRef } from '../components/DoodleCanvas';
 
 export type CreateJazzImageOptions = {
   owner?: Group | Account;
@@ -9,7 +10,7 @@ export type CreateJazzImageOptions = {
   progressive?: boolean;
 };
 
-export async function createJazzImage(canvas: HTMLCanvasElement | null, options: CreateJazzImageOptions = {}) {
+export async function createJazzImage(canvas: DoodleCanvasRef | null, options: CreateJazzImageOptions = {}) {
     if (!canvas) return;
     const dataUrl = canvas?.getCanvasData();
     if (!dataUrl) return;
