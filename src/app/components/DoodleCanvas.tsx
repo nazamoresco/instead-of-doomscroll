@@ -7,6 +7,9 @@ import {
   useImperativeHandle,
 } from "react";
 import rough from "roughjs/bundled/rough.esm.js";
+import { createScaledSvg } from "../lib/createScaledSvg";
+import { serialize } from "v8";
+import { serializeSvg } from "../lib/serializeSvg";
 
 export declare class DoodleCanvasRef {
   getCanvasData: () => string | null;
@@ -40,14 +43,9 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   useImperativeHandle(ref, () => ({
     getCanvasData: () => {
       if (!svgRef.current) return null;
-      svgRef.current.setAttribute(
-        "viewBox",
-        `0 0 ${svgRef.current.getAttribute("width")} ${svgRef.current.getAttribute("height")}`,
-      );
-      svgRef.current.removeAttribute("width");
-      svgRef.current.removeAttribute("height");
-      const svgString = new XMLSerializer().serializeToString(svgRef.current);
-      return "data:image/svg+xml;base64," + btoa(svgString);
+      const { width, height } = svgRef.current.getBoundingClientRect();
+      const scaledSvg = createScaledSvg(points, { width, height }, 512);
+      return serializeSvg(scaledSvg);
     },
     clear: () => {
       setPoints([]);
@@ -87,11 +85,10 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
   };
 
   return (
-    <div className="border mt-4">
+    <div className="border mt-4 w-full md:w-128 aspect-square">
       <svg
         ref={svgRef}
-        width={512}
-        height={512}
+        className="w-full h-full"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
