@@ -65,8 +65,8 @@ export function SuggestionList() {
 
   return (
     suggestion && (
-      <div key={suggestion.$jazz.id}>
-        {svgUrl && <ReactSVG src={svgUrl} className="w-128 h-128" />}
+      <div key={suggestion.$jazz.id} className="w-full">
+        {svgUrl && <ReactSVG src={svgUrl} className="w-full h-128" />}
         <button onClick={() => onDelete(suggestion)}>Delete</button>
         <p className="text-center text-xl"> {suggestion.title} </p>
         <p className="text-center text-xs mt-2 text-zinc-400 dark:text-zinc-600">
