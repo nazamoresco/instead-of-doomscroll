@@ -8,7 +8,6 @@ import {
 } from "react";
 import rough from "roughjs/bundled/rough.esm.js";
 import { createScaledSvg } from "../lib/createScaledSvg";
-import { serialize } from "v8";
 import { serializeSvg } from "../lib/serializeSvg";
 
 export declare class DoodleCanvasRef {

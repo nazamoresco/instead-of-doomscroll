@@ -1,6 +1,6 @@
 "use client";
 import { useAccount, useCoStateWithSelector } from "jazz-tools/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Account, Suggestion, SuggestionFeed } from "../schema";
 import { SvgImage } from "./SvgImage";
 
@@ -26,12 +26,12 @@ export function SuggestionList() {
     },
   );
 
-  const showNextSuggestion = () => {
+  const showNextSuggestion = useCallback(() => {
     setCurrentIndex((prevIndex) => {
       if (!suggestions || suggestions.length === 0) return 0;
       return (prevIndex + 1) % suggestions.length;
     });
-  };
+  }, [suggestions]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -45,7 +45,7 @@ export function SuggestionList() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [suggestions]);
+  }, [suggestions, showNextSuggestion]);
 
   const onDelete = (suggestion: Suggestion) => {
     suggestion.$jazz.set("deleted", true);
