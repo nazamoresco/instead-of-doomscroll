@@ -122,6 +122,7 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
       <svg
         ref={svgRef}
         className="w-full h-full"
+        style={{ touchAction: "none" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
