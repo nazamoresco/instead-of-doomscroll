@@ -1,10 +1,11 @@
 "use client";
-import { useCoStateWithSelector } from "jazz-tools/react";
+import { useAccount, useCoStateWithSelector } from "jazz-tools/react";
 import { useState, useEffect } from "react";
-import { Suggestion, SuggestionFeed } from "../schema";
+import { Account, Suggestion, SuggestionFeed } from "../schema";
 import { SvgImage } from "./SvgImage";
 
 export function SuggestionList() {
+  const { me } = useAccount(Account);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const suggestions = useCoStateWithSelector(
@@ -64,11 +65,21 @@ export function SuggestionList() {
     suggestion && (
       <div
         key={suggestion.$jazz.id}
-        className="w-full"
+        className="w-full relative"
         onClick={showNextSuggestion}
       >
+        {me.canWrite(suggestion) && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(suggestion);
+            }}
+            className="absolute top-2 right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center z-10"
+          >
+            X
+          </button>
+        )}
         {suggestion.doodle && <SvgImage svg={suggestion.doodle} />}
-        <button onClick={() => onDelete(suggestion)}>Delete</button>
         <p className="text-center text-xl"> {suggestion.title} </p>
         <p className="text-center text-xs mt-2 text-zinc-400 dark:text-zinc-600">
           Click or press the right arrow key to see next!
