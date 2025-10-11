@@ -7,6 +7,13 @@ declare module "roughjs/bundled/rough.esm.js" {
       y2: number,
       options?: { [stroke: string]: string },
     ): SVGElement;
+
+    circle(
+      x: number,
+      y: number,
+      diameter: number,
+      options?: { [stroke: string]: string, [fill: string]: string },
+    ): SVGElement;
   }
 
   export function svg(SVGSVGElement): RoughSvg;

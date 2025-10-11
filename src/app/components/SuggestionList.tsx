@@ -68,7 +68,7 @@ export function SuggestionList() {
         className="w-full relative"
         onClick={showNextSuggestion}
       >
-        {me.canWrite(suggestion) && (
+        {me && me.canWrite(suggestion) && (
           <button
             onClick={(e) => {
               e.stopPropagation();
