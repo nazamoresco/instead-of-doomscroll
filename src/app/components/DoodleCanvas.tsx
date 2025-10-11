@@ -33,10 +33,18 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
     }
 
     points.forEach((point) => {
-      const line = rc.line(point.x1, point.y1, point.x2, point.y2, {
-        stroke: "currentColor",
-      });
-      svg.appendChild(line);
+      if (point.x1 === point.x2 && point.y1 === point.y2) {
+        const circle = rc.circle(point.x1, point.y1, 5, {
+          stroke: "currentColor",
+          fill: "currentColor",
+        });
+        svg.appendChild(circle);
+      } else {
+        const line = rc.line(point.x1, point.y1, point.x2, point.y2, {
+          stroke: "currentColor",
+        });
+        svg.appendChild(line);
+      }
     });
   }, [points]);
 
@@ -52,10 +60,9 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
     },
   }));
 
-  const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+  const startDrawing = (clientX: number, clientY: number) => {
     if (!svgRef.current) return;
     setDrawing(true);
-    const { clientX, clientY } = e;
     const { left, top } = svgRef.current.getBoundingClientRect();
     setPoints([
       ...points,
@@ -68,10 +75,9 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
     ]);
   };
 
-  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+  const draw = (clientX: number, clientY: number) => {
     if (!svgRef.current) return;
     if (!drawing) return;
-    const { clientX, clientY } = e;
     const { left, top } = svgRef.current.getBoundingClientRect();
     const newPoints = [...points];
     const lastPoint = newPoints[newPoints.length - 1];
@@ -80,8 +86,36 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
     setPoints(newPoints);
   };
 
-  const handleMouseUp = () => {
+  const endDrawing = () => {
     setDrawing(false);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+    startDrawing(e.clientX, e.clientY);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    draw(e.clientX, e.clientY);
+  };
+
+  const handleMouseUp = () => {
+    endDrawing();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<SVGSVGElement>) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    startDrawing(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<SVGSVGElement>) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    draw(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchEnd = () => {
+    endDrawing();
   };
 
   return (
@@ -92,6 +126,9 @@ export const DoodleCanvas = forwardRef(function DoodleCanvas(_, ref) {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       />
     </div>
   );
