@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useAccount, useCoState } from "jazz-tools/react";
-import { Account, SuggestionFeed } from "../schema";
+import { Account, Suggestion, SuggestionFeed } from "../schema";
 import { DoodleCanvas, DoodleCanvasRef } from "./DoodleCanvas";
 import { createJazzImage } from "../lib/createJazzImage";
 import { Group } from "jazz-tools";
@@ -25,11 +25,13 @@ export function SuggestionForm() {
       progressive: true,
     });
 
-    suggestions.$jazz.push({
+    const suggestion = Suggestion.create({
       title: newSuggestion,
       doodle: doodle,
       deleted: false,
-    });
+    }, Group.create().makePublic("reader"))
+
+    suggestions.$jazz.push(suggestion);
     setNewSuggestion("");
     canvasRef.current?.clear();
   };

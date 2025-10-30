@@ -1,6 +1,6 @@
 import { co, z } from "jazz-tools";
 
-const Suggestion = co.map({
+export const Suggestion = co.map({
   title: z.string(),
   doodle: co.optional(co.image()),
   deleted: z.boolean().default(false),
